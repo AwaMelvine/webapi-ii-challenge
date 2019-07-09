@@ -12,6 +12,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const { body } = req;
+    const id = await Post.insert(body);
+    res.status(200).json({ id });
+  } catch (error) {
+    res.status(500).json({ error: "Could not save post to database" });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
