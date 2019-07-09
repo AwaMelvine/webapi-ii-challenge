@@ -66,7 +66,6 @@ router.get("/:id/comments", async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.findById(id);
-
     if (!post) {
       return res
         .status(404)
