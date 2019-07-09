@@ -15,10 +15,21 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { body } = req;
-    const id = await Post.insert(body);
-    res.status(200).json({ id });
+
+    if (!body.title || !body.contents) {
+      return res.status(400).json({
+        errorMessage: "Please provide title and contents for the post."
+      });
+    } else {
+      const id = await Post.insert(body);
+      res.status(201).json({ id });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Could not save post to database" });
+    res
+      .status(500)
+      .json({
+        error: "There was an error while saving the post to the database"
+      });
   }
 });
 
