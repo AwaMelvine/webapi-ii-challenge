@@ -12,4 +12,14 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    res.status(200).json({ post });
+  } catch (error) {
+    res.status(500).json({ error: "Could not get post from database" });
+  }
+});
+
 module.exports = router;
