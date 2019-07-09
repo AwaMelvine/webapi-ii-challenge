@@ -85,6 +85,19 @@ router.post("/:id/comments", async (req, res) => {
   try {
     const { id } = req.params;
     const { body } = req;
+    const post = await Post.findById(id);
+
+    if (!body.text) {
+      return res
+        .status(400)
+        .json({ errorMessage: "Please provide text for the comment." });
+    }
+
+    if (post.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "The post with the specified ID does not exist." });
+    }
     const newComment = { ...body, post_id: id };
     const count = await Post.insertComment(newComment);
     res.status(200).json({ count });
