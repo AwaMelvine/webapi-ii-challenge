@@ -1,5 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Post from "./Post";
+import styled from "styled-components";
+
+const StyledPostList = styled.div`
+  h1 {
+    text-align: center;
+    font-weight: 400;
+  }
+  width: 40%;
+  margin: 2rem auto;
+`;
 
 const apiUrl = "http://localhost:4000";
 
@@ -18,7 +29,6 @@ class PostList extends Component {
       .get(`${apiUrl}/api/posts`)
       .then(res => {
         this.setState({ posts: res.data.posts });
-        console.log(res.data);
       })
       .catch(error => {
         console.log(error);
@@ -26,12 +36,12 @@ class PostList extends Component {
   }
   render() {
     return (
-      <div>
+      <StyledPostList>
         <h1>Recent Posts</h1>
         {this.state.posts.map(post => (
           <Post key={post.id} post={post} />
         ))}
-      </div>
+      </StyledPostList>
     );
   }
 }
