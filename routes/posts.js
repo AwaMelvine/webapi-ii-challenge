@@ -64,10 +64,16 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    const post = await Post.findById(id);
+    if (post.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "The post with the specified ID does not exist." });
+    }
     const count = await Post.remove(id);
     res.status(200).json({ count });
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete post" });
+    res.status(500).json({ error: "The post could not be removed" });
   }
 });
 
