@@ -53,4 +53,14 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.get("/:id/comments", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await Post.findPostComments(id);
+    res.status(200).json({ comments });
+  } catch (error) {
+    res.status(500).json({ error: "Could not get post comments" });
+  }
+});
+
 module.exports = router;
