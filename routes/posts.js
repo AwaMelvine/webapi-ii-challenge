@@ -8,7 +8,9 @@ router.get("/", async (req, res) => {
     const posts = await Post.find();
     res.status(200).json({ posts });
   } catch (error) {
-    res.status(500).json({ error: "Could not fetch posts from database" });
+    res
+      .status(500)
+      .json({ error: "The posts information could not be retrieved." });
   }
 });
 
@@ -100,9 +102,11 @@ router.post("/:id/comments", async (req, res) => {
     }
     const newComment = { ...body, post_id: id };
     const count = await Post.insertComment(newComment);
-    res.status(200).json({ count });
+    res.status(201).json({ count });
   } catch (error) {
-    res.status(500).json({ error: "Failed to save comment" });
+    res.status(500).json({
+      error: "There was an error while saving the comment to the database"
+    });
   }
 });
 
