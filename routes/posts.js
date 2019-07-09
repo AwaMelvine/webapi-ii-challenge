@@ -63,4 +63,16 @@ router.get("/:id/comments", async (req, res) => {
   }
 });
 
+router.post("/:id/comments", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    const newComment = { ...body, post_id: id };
+    const count = await Post.insertComment(newComment);
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to save comment" });
+  }
+});
+
 module.exports = router;
